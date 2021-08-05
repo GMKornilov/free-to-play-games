@@ -7,7 +7,6 @@ import com.gmkornilov.sberschool.freegames.domain.exception.ServerException
 import com.gmkornilov.sberschool.freegames.domain.functional.Either
 import com.gmkornilov.sberschool.freegames.domain.interactor.SingleUseCase
 import com.gmkornilov.sberschool.freegames.domain.repository.GameRepository
-import com.gmkornilov.sberschool.freegames.domain.rx.SchedulersProvider
 import io.reactivex.rxjava3.core.Single
 import java.io.IOException
 import javax.inject.Inject
@@ -17,7 +16,6 @@ import javax.inject.Inject
  */
 class GetGameInfoUseCase @Inject constructor(
     private val repository: GameRepository,
-    private val schedulersProvider: SchedulersProvider,
     // Annotation @JvmSupressWildcards is added in order to prevent build fails from Dagger
     // (https://stackoverflow.com/questions/60320337/dagger2-binds-methods-parameter-type-must-be-assignable-to-the-return-type-wit)
 ) : SingleUseCase<@JvmSuppressWildcards GameInfo, Int> {

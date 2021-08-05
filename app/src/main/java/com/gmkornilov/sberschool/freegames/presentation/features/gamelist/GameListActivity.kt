@@ -8,7 +8,6 @@ import android.view.View
 import androidx.activity.viewModels
 import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.ActivityMainBinding
-import com.gmkornilov.sberschool.freegames.domain.repository.GameRepository
 import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.PreviewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,8 +42,8 @@ class GameListActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.sucessfullyLoaded.observe(this, {
-            binding.mainContent.gameList.visibility = if (!it) View.VISIBLE else View.GONE
+        viewModel.successfullyLoaded.observe(this, {
+            binding.mainContent.gameList.visibility = if (it) View.VISIBLE else View.GONE
         })
     }
 

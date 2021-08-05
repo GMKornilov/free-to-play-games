@@ -2,6 +2,7 @@ package com.gmkornilov.sberschool.freegames.presentation.features.gamelist
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
@@ -31,9 +32,24 @@ class GameListViewModel @Inject constructor(
     private val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
 
-    val sucessfullyLoaded: LiveData<Boolean> = _loading
+    private val isFailure: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    private val _successfullyLoaded: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
+    val successfullyLoaded: LiveData<Boolean> = _successfullyLoaded
 
     init {
+        _successfullyLoaded.addSource(loading) {
+            val loadingValue = loading.value ?: false
+            val isFailureValue = isFailure.value ?: false
+            _successfullyLoaded.value = !(loadingValue || isFailureValue)
+        }
+        _successfullyLoaded.addSource(isFailure) {
+            val loadingValue = loading.value ?: false
+            val isFailureValue = isFailure.value ?: false
+            _successfullyLoaded.value = !(loadingValue || isFailureValue)
+        }
+
+
         getAllGamePreviews()
     }
 
@@ -46,6 +62,7 @@ class GameListViewModel @Inject constructor(
         getAllGamePreviewsDisposable = getAllGamePreviewsUseCase.buildSingle(Unit)
             .doOnSubscribe {
                 _loading.postValue(true)
+                isFailure.postValue(false)
             }
             .doAfterSuccess {
                 _loading.postValue(false)
@@ -63,6 +80,7 @@ class GameListViewModel @Inject constructor(
     }
 
     private fun processFailure(failure: Failure) {
+        isFailure.value = true
         // we don't have any feature-specific failures in this call, so we don't process them
         when (failure) {
             is Failure.ExceptionFailure -> {
