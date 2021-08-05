@@ -4,10 +4,14 @@ import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.GameInfo
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
+import com.squareup.moshi.addAdapter
+import java.util.*
 import javax.inject.Inject
 
 class GameInfoJsonDataMapper @Inject constructor() : JsonDataMapper<GameInfo> {
     private val moshi = Moshi.Builder()
+        .add(Date::class.java, Rfc3339DateJsonAdapter())
         .build()
 
     private val adapter: JsonAdapter<GameInfo> = moshi.adapter(GameInfo::class.java)

@@ -36,6 +36,6 @@ class GetGameInfoUseCase @Inject constructor(
                         else -> Failure.ExceptionFailure(it)
                     }
                 )
-            }.subscribeOn(schedulersProvider.io())
+            }
     }
 }

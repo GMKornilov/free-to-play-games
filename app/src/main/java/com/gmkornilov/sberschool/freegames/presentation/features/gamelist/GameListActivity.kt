@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.ActivityMainBinding
 import com.gmkornilov.sberschool.freegames.domain.repository.GameRepository
+import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.PreviewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +25,27 @@ class GameListActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+
+        val adapter = PreviewsAdapter()
+        binding.mainContent.gameList.adapter = adapter
+
+        viewModel.gamePreviews.observe(this, {
+            adapter.setData(it)
+        })
+
+        viewModel.loading.observe(this, {
+            if (it) {
+                binding.mainContent.loadingShimmer.visibility = View.VISIBLE
+                binding.mainContent.loadingShimmer.startShimmer()
+            } else {
+                binding.mainContent.loadingShimmer.stopShimmer()
+                binding.mainContent.loadingShimmer.visibility = View.GONE
+            }
+        })
+
+        viewModel.sucessfullyLoaded.observe(this, {
+            binding.mainContent.gameList.visibility = if (!it) View.VISIBLE else View.GONE
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

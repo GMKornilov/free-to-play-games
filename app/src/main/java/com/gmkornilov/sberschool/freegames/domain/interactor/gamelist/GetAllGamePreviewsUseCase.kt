@@ -34,6 +34,6 @@ class GetAllGamePreviewsUseCase @Inject constructor(
                         else -> Failure.ExceptionFailure(it)
                     }
                 )
-            }.subscribeOn(schedulersProvider.io())
+            }
     }
 }
