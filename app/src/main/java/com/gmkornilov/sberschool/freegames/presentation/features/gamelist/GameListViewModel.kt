@@ -20,9 +20,14 @@ class GameListViewModel @Inject constructor(
     private val getAllGamePreviewsUseCase: SingleUseCase<List<GamePreview>, Unit>,
     private val schedulersProvider: SchedulersProvider,
 ) : ViewModel() {
-    val serverErrorPublishSubject: PublishSubject<Unit> = PublishSubject.create()
-    val networkErrorPublishSubject: PublishSubject<Unit> = PublishSubject.create()
-    val exceptionPublishSubject: PublishSubject<Unit> = PublishSubject.create()
+    private val _serverError: MutableLiveData<Boolean> = MutableLiveData(false)
+    val serverError: LiveData<Boolean> = _serverError
+
+    private val _networkError: MutableLiveData<Boolean> = MutableLiveData(false)
+    val networkError: LiveData<Boolean> = _networkError
+
+    private val _exception: MutableLiveData<Boolean> = MutableLiveData(false)
+    val exception: LiveData<Boolean> = _exception
 
     private var getAllGamePreviewsDisposable: Disposable? = null
 
@@ -84,10 +89,10 @@ class GameListViewModel @Inject constructor(
         when (failure) {
             is Failure.ExceptionFailure -> {
                 Log.d(TAG, "Unknown exception:", failure.t)
-                exceptionPublishSubject.onNext(Unit)
+                _exception.value = true
             }
-            Failure.NetworkConnection -> networkErrorPublishSubject.onNext(Unit)
-            Failure.ServerError -> serverErrorPublishSubject.onNext(Unit)
+            Failure.NetworkConnection -> _networkError.value = true
+            Failure.ServerError -> _serverError.value = true
         }
     }
 

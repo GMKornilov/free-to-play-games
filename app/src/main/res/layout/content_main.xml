@@ -15,39 +15,35 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/design_default_color_surface"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <include
             android:id="@+id/loadingView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            tools:visibility="visible">
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animationView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:lottie_rawRes="@raw/animation"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                style="@style/TextAppearance.MaterialComponents.Headline4"
-                android:text="@string/loading"/>
-        </LinearLayout>
+            layout="@layout/loading_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/networkView"
+            layout="@layout/network_error_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/serverView"
+            layout="@layout/server_error_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/unknownErrorView"
+            layout="@layout/unknown_error_layout"
+            android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/gameList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:spanCount="2"
-            tools:listitem="@layout/game_preview_item"
-            tools:visibility="gone" />
+            tools:listitem="@layout/game_preview_item" />
     </FrameLayout>
 </layout>

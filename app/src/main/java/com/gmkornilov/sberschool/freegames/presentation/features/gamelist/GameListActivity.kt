@@ -33,16 +33,32 @@ class GameListActivity : AppCompatActivity() {
         })
 
         viewModel.loading.observe(this, {
-            if (it) {
-                binding.mainContent.loadingView.visibility = View.VISIBLE
-            } else {
-                binding.mainContent.loadingView.visibility = View.GONE
-            }
+            binding.mainContent.loadingView.root.visibility = mapVisibility(it)
+        })
+
+        viewModel.serverError.observe(this, {
+            binding.mainContent.serverView.root.visibility = mapVisibility(it)
+        })
+
+        viewModel.networkError.observe(this, {
+            binding.mainContent.networkView.root.visibility = mapVisibility(it)
+        })
+
+        viewModel.exception.observe(this, {
+            binding.mainContent.unknownErrorView.root.visibility = mapVisibility(it)
         })
 
         viewModel.successfullyLoaded.observe(this, {
-            binding.mainContent.gameList.visibility = if (it) View.VISIBLE else View.GONE
+            binding.mainContent.gameList.visibility = mapVisibility(it)
         })
+    }
+
+    private fun mapVisibility(isVisible: Boolean): Int {
+        return if (isVisible) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
