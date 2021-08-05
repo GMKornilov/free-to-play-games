@@ -34,11 +34,9 @@ class GameListActivity : AppCompatActivity() {
 
         viewModel.loading.observe(this, {
             if (it) {
-                binding.mainContent.loadingShimmer.visibility = View.VISIBLE
-                binding.mainContent.loadingShimmer.startShimmer()
+                binding.mainContent.loadingView.visibility = View.VISIBLE
             } else {
-                binding.mainContent.loadingShimmer.stopShimmer()
-                binding.mainContent.loadingShimmer.visibility = View.GONE
+                binding.mainContent.loadingView.visibility = View.GONE
             }
         })
 

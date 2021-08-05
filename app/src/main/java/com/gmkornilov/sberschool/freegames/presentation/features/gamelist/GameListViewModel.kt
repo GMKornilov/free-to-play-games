@@ -49,14 +49,13 @@ class GameListViewModel @Inject constructor(
             _successfullyLoaded.value = !(loadingValue || isFailureValue)
         }
 
-
         getAllGamePreviews()
     }
 
     /**
      * Loads previews of all games and stores them in LiveData
      */
-    fun getAllGamePreviews() {
+    private fun getAllGamePreviews() {
         getAllGamePreviewsDisposable?.dispose()
 
         getAllGamePreviewsDisposable = getAllGamePreviewsUseCase.buildSingle(Unit)
