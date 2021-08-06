@@ -2,6 +2,7 @@ package com.gmkornilov.sberschool.freegames.domain.entity.gamepreview
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.io.Serializable
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -16,4 +17,4 @@ data class GamePreview(
     val developer: String,
     @Json(name = "release_date") val releaseDate: Date,
     @Json(name = "freetogame_profile_url") val freeToGameProfileUrl: String,
-)
+) : Serializable

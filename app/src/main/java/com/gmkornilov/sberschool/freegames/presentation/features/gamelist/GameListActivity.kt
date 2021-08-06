@@ -1,26 +1,26 @@
 package com.gmkornilov.sberschool.freegames.presentation.features.gamelist
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.gmkornilov.sberschool.freegames.R
-import com.gmkornilov.sberschool.freegames.databinding.ActivityMainBinding
+import com.gmkornilov.sberschool.freegames.databinding.ActivityGamePreviewsBinding
 import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.PreviewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GameListActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityGamePreviewsBinding
 
     private val viewModel: GameListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityGamePreviewsBinding.inflate(layoutInflater)
         binding.viewModel = viewModel
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)

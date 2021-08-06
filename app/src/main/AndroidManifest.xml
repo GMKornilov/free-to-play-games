@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gmkornilov.sberschool.freegames">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".presentation.MainApplication"
@@ -12,6 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FreeGames">
+        <activity
+            android:name=".presentation.features.gameinfo.GameInfoActivity"
+            android:label="@string/title_activity_game_info"
+            android:theme="@style/Theme.FreeGames.NoActionBar"></activity>
         <activity
             android:name=".presentation.features.gamelist.GameListActivity"
             android:label="@string/app_name"

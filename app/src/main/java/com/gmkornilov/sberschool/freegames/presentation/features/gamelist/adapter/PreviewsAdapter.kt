@@ -12,10 +12,9 @@ import com.squareup.picasso.Picasso
 
 class PreviewsAdapter : RecyclerView.Adapter<PreviewsAdapter.PreviewViewHolder>() {
     class PreviewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val titleText: TextView = view.findViewById(R.id.titleText)
-        val descriptionText: TextView = view.findViewById(R.id.descriptionText)
-
-        val thumbnailImage: ImageView = view.findViewById(R.id.thumbnailImage)
+        private val titleText: TextView = view.findViewById(R.id.titleText)
+        private val descriptionText: TextView = view.findViewById(R.id.descriptionText)
+        private val thumbnailImage: ImageView = view.findViewById(R.id.thumbnailImage)
 
         fun bind(preview: GamePreview) {
             titleText.text = preview.title
