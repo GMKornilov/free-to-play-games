@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.gmkornilov.sberschool.freegames.presentation.features.gamelist.GameListViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include
+            android:id="@+id/loadingView"
+            layout="@layout/loading_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/networkView"
+            layout="@layout/network_error_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/serverView"
+            layout="@layout/server_error_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/unknownErrorView"
+            layout="@layout/unknown_error_layout"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/gameList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:visibility="visible"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/game_preview_item" />
+    </FrameLayout>
+</layout>
