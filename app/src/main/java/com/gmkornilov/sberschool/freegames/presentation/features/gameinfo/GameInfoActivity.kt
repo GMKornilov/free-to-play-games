@@ -9,11 +9,13 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.ActivityGameInfoBinding
-import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.GameInfoNavigationInfo
+import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class GameInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameInfoBinding

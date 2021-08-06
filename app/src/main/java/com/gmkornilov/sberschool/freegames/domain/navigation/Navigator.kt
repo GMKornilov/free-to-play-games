@@ -1,10 +1,10 @@
 package com.gmkornilov.sberschool.freegames.domain.navigation
 
-import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.GameInfoNavigationInfo
-import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
+import android.content.Intent
+import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
 
 interface Navigator {
-    fun showGameInfo(gameInfoNavigationInfo: GameInfoNavigationInfo)
+    fun showGameInfo(gameInfoNavigationInfo: GameInfoNavigationInfo): Intent
 
     // TODO: add show filters
 }

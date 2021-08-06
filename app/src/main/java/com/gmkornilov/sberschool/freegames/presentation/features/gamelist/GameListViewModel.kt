@@ -1,15 +1,20 @@
 package com.gmkornilov.sberschool.freegames.presentation.features.gamelist
 
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
+import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
 import com.gmkornilov.sberschool.freegames.domain.exception.Failure
 import com.gmkornilov.sberschool.freegames.domain.functional.Either
 import com.gmkornilov.sberschool.freegames.domain.interactor.SingleUseCase
+import com.gmkornilov.sberschool.freegames.domain.interactor.gamelist.ShowGameInfoUseCase
 import com.gmkornilov.sberschool.freegames.domain.rx.SchedulersProvider
+import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.GamePreviewClicked
+import com.gmkornilov.sberschool.freegames.presentation.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -18,8 +23,9 @@ import javax.inject.Inject
 @HiltViewModel
 class GameListViewModel @Inject constructor(
     private val getAllGamePreviewsUseCase: SingleUseCase<List<GamePreview>, Unit>,
+    private val showGameInfoUseCase: ShowGameInfoUseCase,
     private val schedulersProvider: SchedulersProvider,
-) : ViewModel() {
+) : ViewModel(), GamePreviewClicked {
     private val _serverError: MutableLiveData<Boolean> = MutableLiveData(false)
     val serverError: LiveData<Boolean> = _serverError
 
@@ -30,6 +36,7 @@ class GameListViewModel @Inject constructor(
     val exception: LiveData<Boolean> = _exception
 
     private var getAllGamePreviewsDisposable: Disposable? = null
+    private var showGameInfoDisposable: Disposable? = null
 
     private val _gamePreviews: MutableLiveData<List<GamePreview>> = MutableLiveData()
     val gamePreviews: LiveData<List<GamePreview>> = _gamePreviews
@@ -41,6 +48,9 @@ class GameListViewModel @Inject constructor(
 
     private val _successfullyLoaded: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
     val successfullyLoaded: LiveData<Boolean> = _successfullyLoaded
+
+    val startActivityEvent: SingleLiveEvent<Pair<Intent, GameInfoNavigationInfo>> =
+        SingleLiveEvent()
 
     init {
         _successfullyLoaded.addSource(loading) {
@@ -74,6 +84,23 @@ class GameListViewModel @Inject constructor(
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.main())
             .subscribe { either -> processGamePreviewsEither(either) }
+    }
+
+    override fun onGamePreviewClicked(gameInfoNavigationInfo: GameInfoNavigationInfo) {
+        showGameInfo(gameInfoNavigationInfo)
+    }
+
+
+    private fun showGameInfo(gameInfoNavigationInfo: GameInfoNavigationInfo) {
+        showGameInfoDisposable?.dispose()
+
+        showGameInfoDisposable = showGameInfoUseCase.buildSingle(gameInfoNavigationInfo)
+            .subscribeOn(schedulersProvider.main())
+            .subscribe { either ->
+                if (either is Either.Right) {
+                    startActivityEvent.postValue(Pair(either.value, gameInfoNavigationInfo))
+                }
+            }
     }
 
     private fun processGamePreviewsEither(either: Either<Failure, List<GamePreview>>) {

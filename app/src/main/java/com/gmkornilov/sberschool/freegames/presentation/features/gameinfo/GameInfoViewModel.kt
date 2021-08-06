@@ -11,10 +11,11 @@ import com.gmkornilov.sberschool.freegames.domain.rx.SchedulersProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.assisted.AssistedFactory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.Disposable
 
 class GameInfoViewModel @AssistedInject constructor(
-    private val getGameInfoUseCase: SingleUseCase<GameInfo, Int>,
+    private val getGameInfoUseCase: SingleUseCase<GameInfo, Long>,
     private val schedulersProvider: SchedulersProvider,
     @Assisted private val gamePreviewInfo: GamePreview,
 ) : ViewModel() {

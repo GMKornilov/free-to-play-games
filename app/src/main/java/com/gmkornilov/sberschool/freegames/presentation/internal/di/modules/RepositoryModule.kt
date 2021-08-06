@@ -5,10 +5,11 @@ import com.gmkornilov.sberschool.freegames.domain.repository.GameRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ViewModelComponent
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(ViewModelComponent::class, ActivityComponent::class)
 interface RepositoryModule {
     @Binds
     fun provideGameRepository(gameRepositoryImpl: GameRepositoryImpl): GameRepository

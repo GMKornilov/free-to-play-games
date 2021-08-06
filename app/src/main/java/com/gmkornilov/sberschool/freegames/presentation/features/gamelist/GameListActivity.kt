@@ -6,10 +6,12 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.ActivityGamePreviewsBinding
 import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.PreviewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.core.util.Pair
 
 @AndroidEntryPoint
 class GameListActivity : AppCompatActivity() {
@@ -21,11 +23,12 @@ class GameListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityGamePreviewsBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        val adapter = PreviewsAdapter()
+        val adapter = PreviewsAdapter(viewModel)
         binding.mainContent.gameList.adapter = adapter
 
         viewModel.gamePreviews.observe(this, {
@@ -50,6 +53,19 @@ class GameListActivity : AppCompatActivity() {
 
         viewModel.successfullyLoaded.observe(this, {
             binding.mainContent.gameList.visibility = mapVisibility(it)
+        })
+
+        viewModel.startActivityEvent.observe(this, {
+            val imageUtilPair =
+                Pair.create(it.second.sharedImageView as View, it.second.sharedThumbnailName)
+            val titleUtilPair =
+                Pair.create(it.second.sharedTitle as View, it.second.sharedTitleName)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this,
+                imageUtilPair,
+                titleUtilPair
+            )
+            startActivity(it.first, options.toBundle())
         })
     }
 
