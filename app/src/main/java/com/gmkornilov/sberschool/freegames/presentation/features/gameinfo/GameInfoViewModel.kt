@@ -14,6 +14,9 @@ import dagger.assisted.AssistedFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.Disposable
 
+// This class is not annotated with @HiltViewModel annotation because
+// Hilt does not support assisted injection for class with this annotation
+// (and it sucks)
 class GameInfoViewModel @AssistedInject constructor(
     private val getGameInfoUseCase: SingleUseCase<GameInfo, Long>,
     private val schedulersProvider: SchedulersProvider,
@@ -33,7 +36,7 @@ class GameInfoViewModel @AssistedInject constructor(
     private val _gameInfo: MutableLiveData<GameInfo> = MutableLiveData()
     val gameInfo: LiveData<GameInfo> = _gameInfo
 
-    val gamePreview:LiveData<GamePreview> = MutableLiveData<GamePreview>().apply {
+    val gamePreview: LiveData<GamePreview> = MutableLiveData<GamePreview>().apply {
         value = gamePreviewInfo
     }
 
@@ -56,6 +59,8 @@ class GameInfoViewModel @AssistedInject constructor(
             val isFailureValue = isFailure.value ?: false
             _successfullyLoaded.value = !(loadingValue || isFailureValue)
         }
+
+        getGameInfo()
     }
 
     private fun getGameInfo() {
@@ -83,7 +88,7 @@ class GameInfoViewModel @AssistedInject constructor(
 
     private fun processFailure(failure: Failure) {
         isFailure.value = true
-        when(failure) {
+        when (failure) {
             is Failure.ExceptionFailure -> {
                 Log.d(TAG, "Unknown exception:", failure.t)
                 _exception.value = true

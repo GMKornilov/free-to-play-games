@@ -19,6 +19,6 @@ data class GameInfo(
     val developer: String,
     @Json(name = "release_date") val releaseDate: Date,
     @Json(name = "freetogame_profile_url") val freeToGameProfileUrl: String,
-    @Json(name = "minimum_system_requirements") val minimumSystemRequirements: SystemRequirement,
     val screenshots: List<Screenshot>,
+    @Json(name = "minimum_system_requirements") val minimumSystemRequirements: SystemRequirement? = null,
 )

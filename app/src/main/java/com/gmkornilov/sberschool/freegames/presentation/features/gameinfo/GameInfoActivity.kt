@@ -5,14 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.annotation.VisibleForTesting
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.ActivityGameInfoBinding
-import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
+import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Exception
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,21 +38,44 @@ class GameInfoActivity : AppCompatActivity() {
         binding = ActivityGameInfoBinding.inflate(layoutInflater)
         binding.viewModel = viewModel
         setContentView(binding.root)
+        supportPostponeEnterTransition()
+
+        val thumbnailTransitionName = intent?.getStringExtra(SHARED_THUMBNAIL_NAME)
+        val titleTransitionName = intent?.getStringExtra(SHARED_TITLE_NAME)
+        if (thumbnailTransitionName != null && titleTransitionName != null) {
+            binding.gameImage.transitionName = thumbnailTransitionName
+            binding.scrollContent.titleText.transitionName = titleTransitionName
+        }
 
         viewModel.gamePreview.observe(this, {
-            Picasso.get().load(it.thumbnailUrl).into(binding.gameImage)
+            Picasso.get()
+                .load(it.thumbnailUrl)
+                .noFade()
+                .into(binding.gameImage, object : Callback {
+                    override fun onError(e: Exception?) {
+                        supportStartPostponedEnterTransition()
+                    }
+
+                    override fun onSuccess() {
+                        supportStartPostponedEnterTransition()
+                    }
+                })
+            binding.scrollContent.titleText.text = it.title
         })
 
-        viewModel.gamePreview.observe(this, {
-
+        viewModel.gameInfo.observe(this, {
+            binding.scrollContent.descriptionText.text = it.description
         })
 
         setSupportActionBar(findViewById(R.id.toolbar))
-        binding.toolbarLayout.title = title
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     companion object {
