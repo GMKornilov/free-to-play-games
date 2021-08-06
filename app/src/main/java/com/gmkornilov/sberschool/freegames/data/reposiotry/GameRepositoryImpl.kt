@@ -39,7 +39,7 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getGameInfo(gameId: Int): Single<GameInfo> {
+    override fun getGameInfo(gameId: Long): Single<GameInfo> {
         return Single.create { emitter ->
             val url = "$BASE_URL/game?id=$gameId"
             val request = Request.Builder()

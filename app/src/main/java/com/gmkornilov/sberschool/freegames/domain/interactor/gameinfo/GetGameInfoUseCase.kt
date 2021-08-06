@@ -18,8 +18,8 @@ class GetGameInfoUseCase @Inject constructor(
     private val repository: GameRepository,
     // Annotation @JvmSupressWildcards is added in order to prevent build fails from Dagger
     // (https://stackoverflow.com/questions/60320337/dagger2-binds-methods-parameter-type-must-be-assignable-to-the-return-type-wit)
-) : SingleUseCase<@JvmSuppressWildcards GameInfo, Int> {
-    override fun buildSingle(params: Int): Single<Either<Failure, GameInfo>> {
+) : SingleUseCase<@JvmSuppressWildcards GameInfo, Long> {
+    override fun buildSingle(params: Long): Single<Either<Failure, GameInfo>> {
         return repository
             .getGameInfo(params)
             .map<Either<Failure, GameInfo>> {

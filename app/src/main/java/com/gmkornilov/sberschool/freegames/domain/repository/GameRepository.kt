@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.Single
 interface GameRepository {
     fun getAllGamePreviews(): Single<List<GamePreview>>
 
-    fun getGameInfo(gameId: Int): Single<GameInfo>
+    fun getGameInfo(gameId: Long): Single<GameInfo>
 
     // TODO: add filtering game previews
 }
