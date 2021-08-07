@@ -15,6 +15,8 @@ class GetAllGamePreviewsUseCase @Inject constructor(
     // (https://stackoverflow.com/questions/60320337/dagger2-binds-methods-parameter-type-must-be-assignable-to-the-return-type-wit)
 ) : SingleUseCase<@JvmSuppressWildcards List<GamePreview>, Unit> {
     override fun buildSingle(params: Unit): Single<List<GamePreview>> {
-        return repository.getAllGamePreviews()
+        return Single.fromCallable {
+            repository.getAllGamePreviews()
+        }
     }
 }

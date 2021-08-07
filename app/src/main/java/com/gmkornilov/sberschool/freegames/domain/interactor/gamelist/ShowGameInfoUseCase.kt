@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 /**
  * Use case of showing information about specific game.
- * Construct intentn for starting ShowGameInfoActivity
+ * Construct intent for starting ShowGameInfoActivity
  */
 class ShowGameInfoUseCase @Inject constructor(
     private val navigator: Navigator,

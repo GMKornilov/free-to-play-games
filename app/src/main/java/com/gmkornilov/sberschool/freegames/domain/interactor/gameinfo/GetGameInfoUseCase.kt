@@ -15,6 +15,8 @@ class GetGameInfoUseCase @Inject constructor(
     // (https://stackoverflow.com/questions/60320337/dagger2-binds-methods-parameter-type-must-be-assignable-to-the-return-type-wit)
 ) : SingleUseCase<@JvmSuppressWildcards GameInfo, Long> {
     override fun buildSingle(params: Long): Single<GameInfo> {
-        return repository.getGameInfo(params)
+        return Single.fromCallable {
+            repository.getGameInfo(params)
+        }
     }
 }
