@@ -9,9 +9,10 @@
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/network_connection_animation" />
+        app:lottie_rawRes="@raw/server_error_animation" />
 
     <TextView
         style="@style/TextAppearance.MaterialComponents.Headline4"

@@ -1,7 +1,5 @@
 package com.gmkornilov.sberschool.freegames.domain.interactor
 
-import com.gmkornilov.sberschool.freegames.domain.exception.Failure
-import com.gmkornilov.sberschool.freegames.domain.functional.Either
 import io.reactivex.rxjava3.core.Single
 
 /**
@@ -17,5 +15,5 @@ interface SingleUseCase<Type, Params> {
      * @return Single which contains either failure from executing use-case
      * or result from use-case execution
      */
-    fun buildSingle(params: Params): Single<Either<Failure, Type>>
+    fun buildSingle(params: Params): Single<Type>
 }

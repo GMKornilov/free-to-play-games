@@ -6,8 +6,9 @@ import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.GameInfo
 import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.Screenshot
 import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.SystemRequirement
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
-import com.gmkornilov.sberschool.freegames.domain.exception.Failure
-import com.gmkornilov.sberschool.freegames.domain.functional.Either
+import com.gmkornilov.sberschool.freegames.domain.exception.GameNotFound
+import com.gmkornilov.sberschool.freegames.domain.exception.NetworkConnectionException
+import com.gmkornilov.sberschool.freegames.domain.exception.ServerException
 import com.gmkornilov.sberschool.freegames.domain.interactor.SingleUseCase
 import com.gmkornilov.sberschool.freegames.domain.rx.SchedulersProvider
 import dagger.assisted.Assisted
@@ -124,26 +125,25 @@ class GameInfoViewModel @AssistedInject constructor(
             }
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.main())
-            .subscribe { either -> processGameInfoEither(either) }
+            .subscribe { gameInfo, throwable ->
+                if (throwable != null) {
+                    processException(throwable)
+                } else {
+                    _gameInfo.value = gameInfo
+                }
+            }
     }
 
-    private fun processGameInfoEither(either: Either<Failure, GameInfo>) {
-        when (either) {
-            is Either.Left -> processFailure(either.value)
-            is Either.Right -> _gameInfo.value = either.value
-        }
-    }
-
-    private fun processFailure(failure: Failure) {
+    private fun processException(throwable: Throwable) {
         isFailure.value = true
-        when (failure) {
-            is Failure.ExceptionFailure -> {
-                Log.d(TAG, "Unknown exception:", failure.t)
+        when (throwable) {
+            is GameNotFound -> _notFoundError.value = true
+            is NetworkConnectionException -> _networkError.value = true
+            is ServerException -> _serverError.value = true
+            else -> {
+                Log.d(TAG, "Unknown exception:", throwable)
                 _exception.value = true
             }
-            is Failure.GameNotFound -> _notFoundError.value = true
-            is Failure.NetworkConnection -> _networkError.value = true
-            is Failure.ServerError -> _serverError.value = true
         }
     }
 

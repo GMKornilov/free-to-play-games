@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
 import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
-import com.gmkornilov.sberschool.freegames.domain.exception.Failure
-import com.gmkornilov.sberschool.freegames.domain.functional.Either
+import com.gmkornilov.sberschool.freegames.domain.exception.NetworkConnectionException
+import com.gmkornilov.sberschool.freegames.domain.exception.ServerException
 import com.gmkornilov.sberschool.freegames.domain.interactor.SingleUseCase
 import com.gmkornilov.sberschool.freegames.domain.interactor.gamelist.ShowGameInfoUseCase
 import com.gmkornilov.sberschool.freegames.domain.rx.SchedulersProvider
@@ -67,7 +67,13 @@ class GameListViewModel @Inject constructor(
             }
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.main())
-            .subscribe { either -> processGamePreviewsEither(either) }
+            .subscribe { gamePreviewList, throwable ->
+                if (throwable != null) {
+                    processException(throwable)
+                } else {
+                    _gamePreviews.value = gamePreviewList
+                }
+            }
     }
 
     override fun onGamePreviewClicked(gameInfoNavigationInfo: GameInfoNavigationInfo) {
@@ -80,30 +86,20 @@ class GameListViewModel @Inject constructor(
 
         showGameInfoDisposable = showGameInfoUseCase.buildSingle(gameInfoNavigationInfo)
             .subscribeOn(schedulersProvider.main())
-            .subscribe { either ->
-                if (either is Either.Right) {
-                    startActivityEvent.postValue(Pair(either.value, gameInfoNavigationInfo))
-                }
+            .subscribe { intent ->
+                startActivityEvent.postValue(Pair(intent, gameInfoNavigationInfo))
             }
     }
 
-    private fun processGamePreviewsEither(either: Either<Failure, List<GamePreview>>) {
-        when (either) {
-            is Either.Left -> processFailure(either.value)
-            is Either.Right -> _gamePreviews.value = either.value
-        }
-    }
-
-    private fun processFailure(failure: Failure) {
+    private fun processException(throwable: Throwable) {
         isFailure.value = true
-        // we don't have any feature-specific failures in this call, so we don't process them
-        when (failure) {
-            is Failure.ExceptionFailure -> {
-                Log.d(TAG, "Unknown exception:", failure.t)
+        when (throwable) {
+            is NetworkConnectionException -> _networkError.value = true
+            is ServerException -> _serverError.value = true
+            else -> {
+                Log.d(TAG, "Unknown exception:", throwable)
                 _exception.value = true
             }
-            Failure.NetworkConnection -> _networkError.value = true
-            Failure.ServerError -> _serverError.value = true
         }
     }
 
