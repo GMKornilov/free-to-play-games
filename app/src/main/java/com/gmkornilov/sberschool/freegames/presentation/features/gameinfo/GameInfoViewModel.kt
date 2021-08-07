@@ -29,6 +29,9 @@ class GameInfoViewModel @AssistedInject constructor(
     private val _networkError: MutableLiveData<Boolean> = MutableLiveData()
     val networkError: LiveData<Boolean> = _networkError
 
+    private val _notFoundError: MutableLiveData<Boolean> = MutableLiveData()
+    val notFoundError: MutableLiveData<Boolean> = _notFoundError
+
     private val _exception: MutableLiveData<Boolean> = MutableLiveData()
     val exception: LiveData<Boolean> = _exception
 

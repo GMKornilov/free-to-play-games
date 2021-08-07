@@ -25,6 +25,26 @@
             <include layout="@layout/game_info_shimmer_layout" />
         </com.facebook.shimmer.ShimmerFrameLayout>
 
+        <include
+            android:id="@+id/networkView"
+            layout="@layout/network_error_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/serverView"
+            layout="@layout/server_error_layout"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/notFoundView"
+            layout="@layout/not_found_layout"
+            android:visibility="gone"/>
+
+        <include
+            android:id="@+id/unknownErrorView"
+            layout="@layout/unknown_error_layout"
+            android:visibility="gone"/>
+
         <TextView
             android:id="@+id/descriptionText"
             android:layout_width="0dp"

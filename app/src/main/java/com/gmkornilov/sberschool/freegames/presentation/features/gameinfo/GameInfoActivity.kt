@@ -46,6 +46,23 @@ class GameInfoActivity : AppCompatActivity() {
             binding.gameImage.transitionName = thumbnailTransitionName
         }
 
+        viewModel.serverError.observe(this, {
+            binding.scrollContent.serverView.root.visibility = mapVisibility(it)
+        })
+
+        viewModel.networkError.observe(this, {
+            binding.scrollContent.networkView.root.visibility = mapVisibility(it)
+        })
+
+        viewModel.exception.observe(this, {
+            binding.scrollContent.unknownErrorView.root.visibility = mapVisibility(it)
+        })
+
+        viewModel.notFoundError.observe(this, {
+            binding.scrollContent.notFoundView.root.visibility = mapVisibility(it)
+        })
+
+
         viewModel.gamePreview.observe(this, {
             Picasso.get()
                 .load(it.thumbnailUrl)
