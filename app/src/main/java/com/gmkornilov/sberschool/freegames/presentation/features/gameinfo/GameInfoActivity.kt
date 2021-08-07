@@ -62,7 +62,7 @@ class GameInfoActivity : AppCompatActivity() {
         })
 
         viewModel.successfullyLoaded.observe(this, {
-            binding.scrollContent.mainContentGroup.visibility = View.VISIBLE
+            binding.scrollContent.mainContentGroup.visibility = mapVisibility(it)
         })
 
         viewModel.requirements.observe(this, {

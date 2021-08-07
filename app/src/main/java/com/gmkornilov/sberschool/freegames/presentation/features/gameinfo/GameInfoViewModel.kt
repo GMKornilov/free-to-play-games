@@ -22,13 +22,13 @@ class GameInfoViewModel @AssistedInject constructor(
     private val schedulersProvider: SchedulersProvider,
     @Assisted private val gamePreviewInfo: GamePreview,
 ) : ViewModel() {
-    private val _serverError: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _serverError: MutableLiveData<Boolean> = MutableLiveData()
     val serverError: LiveData<Boolean> = _serverError
 
-    private val _networkError: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _networkError: MutableLiveData<Boolean> = MutableLiveData()
     val networkError: LiveData<Boolean> = _networkError
 
-    private val _exception: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _exception: MutableLiveData<Boolean> = MutableLiveData()
     val exception: LiveData<Boolean> = _exception
 
     private var getGameInfoDisposable: Disposable? = null
@@ -49,7 +49,7 @@ class GameInfoViewModel @AssistedInject constructor(
         value = gamePreviewInfo
     }
 
-    private val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _loading: MutableLiveData<Boolean> = MutableLiveData()
     val loading: LiveData<Boolean> = _loading
 
     private val isFailure: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -59,14 +59,22 @@ class GameInfoViewModel @AssistedInject constructor(
 
     init {
         _successfullyLoaded.addSource(loading) {
-            val loadingValue = loading.value ?: false
-            val isFailureValue = isFailure.value ?: false
-            _successfullyLoaded.value = !(loadingValue || isFailureValue)
+            val loadingValue = loading.value
+            val isFailureValue = isFailure.value
+            _successfullyLoaded.value = if (loadingValue != null && isFailureValue != null) {
+                !(loadingValue || isFailureValue)
+            } else {
+                false
+            }
         }
         _successfullyLoaded.addSource(isFailure) {
-            val loadingValue = loading.value ?: false
-            val isFailureValue = isFailure.value ?: false
-            _successfullyLoaded.value = !(loadingValue || isFailureValue)
+            val loadingValue = loading.value
+            val isFailureValue = isFailure.value
+            _successfullyLoaded.value = if (loadingValue != null && isFailureValue != null) {
+                !(loadingValue || isFailureValue)
+            } else {
+                false
+            }
         }
 
         _description.addSource(_gameInfo) {
@@ -85,7 +93,7 @@ class GameInfoViewModel @AssistedInject constructor(
                 && requirements.os != null
                 && requirements.storage != null
             ) {
-                    _requirements.value = requirements
+                _requirements.value = requirements
             }
         }
 
