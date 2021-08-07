@@ -31,9 +31,7 @@ class PreviewsAdapter(
             view.setOnClickListener {
                 val gameInfoNavigationInfo = GameInfoNavigationInfo(
                     preview,
-                    "title${preview.id}",
                     "thumbnail${preview.id}",
-                    titleText,
                     thumbnailImage,
                 )
                 gamePreviewClicked.onGamePreviewClicked(gameInfoNavigationInfo)

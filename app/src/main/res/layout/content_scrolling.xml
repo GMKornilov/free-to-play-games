@@ -12,18 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/titleText"
-            style="@style/TextAppearance.MaterialComponents.Headline5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:layout_constraintBottom_toTopOf="@id/descriptionText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Test title" />
-
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/loadingLayout"
             android:layout_width="0dp"
@@ -31,7 +19,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleText"
+            app:layout_constraintTop_toTopOf="parent"
             tools:visibility="gone">
 
             <include layout="@layout/game_info_shimmer_layout" />
@@ -47,7 +35,7 @@
             app:layout_constraintBottom_toTopOf="@id/developerTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleText"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/large_text" />
 
         <TextView

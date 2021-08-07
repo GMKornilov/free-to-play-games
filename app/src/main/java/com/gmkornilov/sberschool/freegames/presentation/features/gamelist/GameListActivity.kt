@@ -5,7 +5,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import com.gmkornilov.sberschool.freegames.databinding.ActivityGamePreviewsBinding
 import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.PreviewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,14 +49,10 @@ class GameListActivity : AppCompatActivity() {
         })
 
         viewModel.startActivityEvent.observe(this, {
-            val imageUtilPair =
-                Pair.create(it.second.sharedImageView as View, it.second.sharedThumbnailName)
-            val titleUtilPair =
-                Pair.create(it.second.sharedTitle as View, it.second.sharedTitleName)
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 this,
-                imageUtilPair,
-                titleUtilPair
+                it.second.sharedImageView,
+                it.second.sharedThumbnailName
             )
             startActivity(it.first, options.toBundle())
         })

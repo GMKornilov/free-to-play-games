@@ -41,10 +41,8 @@ class GameInfoActivity : AppCompatActivity() {
         supportPostponeEnterTransition()
 
         val thumbnailTransitionName = intent?.getStringExtra(SHARED_THUMBNAIL_NAME)
-        val titleTransitionName = intent?.getStringExtra(SHARED_TITLE_NAME)
-        if (thumbnailTransitionName != null && titleTransitionName != null) {
+        if (thumbnailTransitionName != null) {
             binding.gameImage.transitionName = thumbnailTransitionName
-            binding.scrollContent.titleText.transitionName = titleTransitionName
         }
 
         viewModel.gamePreview.observe(this, {
@@ -60,7 +58,7 @@ class GameInfoActivity : AppCompatActivity() {
                         supportStartPostponedEnterTransition()
                     }
                 })
-            binding.scrollContent.titleText.text = it.title
+            binding.toolbarLayout.title = it.title
         })
 
         viewModel.successfullyLoaded.observe(this, {
@@ -98,7 +96,6 @@ class GameInfoActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     private fun mapVisibility(isVisible: Boolean): Int {
@@ -119,15 +116,11 @@ class GameInfoActivity : AppCompatActivity() {
         const val GAME_PREVIEW = "GAME_PREVIEW"
 
         @VisibleForTesting
-        const val SHARED_TITLE_NAME = "SHARED_TITLE_NAME"
-
-        @VisibleForTesting
         const val SHARED_THUMBNAIL_NAME = "SHARED_THUMBNAIL_NAME"
 
         fun newIntent(context: Context, gameInfoNavigationInfo: GameInfoNavigationInfo): Intent {
             return Intent(context, GameInfoActivity::class.java).apply {
                 putExtra(GAME_PREVIEW, gameInfoNavigationInfo.gamePreview)
-                putExtra(SHARED_TITLE_NAME, gameInfoNavigationInfo.sharedTitleName)
                 putExtra(SHARED_THUMBNAIL_NAME, gameInfoNavigationInfo.sharedThumbnailName)
             }
         }
