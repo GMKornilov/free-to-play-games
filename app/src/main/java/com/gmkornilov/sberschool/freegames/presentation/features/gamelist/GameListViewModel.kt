@@ -3,7 +3,6 @@ package com.gmkornilov.sberschool.freegames.presentation.features.gamelist
 import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
@@ -17,7 +16,6 @@ import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapte
 import com.gmkornilov.sberschool.freegames.presentation.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,24 +44,10 @@ class GameListViewModel @Inject constructor(
 
     private val isFailure: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    private val _successfullyLoaded: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
-    val successfullyLoaded: LiveData<Boolean> = _successfullyLoaded
-
     val startActivityEvent: SingleLiveEvent<Pair<Intent, GameInfoNavigationInfo>> =
         SingleLiveEvent()
 
     init {
-        _successfullyLoaded.addSource(loading) {
-            val loadingValue = loading.value ?: false
-            val isFailureValue = isFailure.value ?: false
-            _successfullyLoaded.value = !(loadingValue || isFailureValue)
-        }
-        _successfullyLoaded.addSource(isFailure) {
-            val loadingValue = loading.value ?: false
-            val isFailureValue = isFailure.value ?: false
-            _successfullyLoaded.value = !(loadingValue || isFailureValue)
-        }
-
         getAllGamePreviews()
     }
 

@@ -1,17 +1,14 @@
 package com.gmkornilov.sberschool.freegames.presentation.features.gamelist
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
-import com.gmkornilov.sberschool.freegames.R
+import androidx.core.util.Pair
 import com.gmkornilov.sberschool.freegames.databinding.ActivityGamePreviewsBinding
 import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.PreviewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.core.util.Pair
 
 @AndroidEntryPoint
 class GameListActivity : AppCompatActivity() {
@@ -32,6 +29,7 @@ class GameListActivity : AppCompatActivity() {
         binding.mainContent.gameList.adapter = adapter
 
         viewModel.gamePreviews.observe(this, {
+            binding.mainContent.gameList.visibility = View.VISIBLE
             adapter.setData(it)
         })
 
@@ -49,10 +47,6 @@ class GameListActivity : AppCompatActivity() {
 
         viewModel.exception.observe(this, {
             binding.mainContent.unknownErrorView.root.visibility = mapVisibility(it)
-        })
-
-        viewModel.successfullyLoaded.observe(this, {
-            binding.mainContent.gameList.visibility = mapVisibility(it)
         })
 
         viewModel.startActivityEvent.observe(this, {
@@ -77,19 +71,8 @@ class GameListActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        return true
+//    }
 }

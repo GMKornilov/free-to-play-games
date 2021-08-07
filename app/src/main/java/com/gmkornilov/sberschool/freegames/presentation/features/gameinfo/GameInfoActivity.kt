@@ -3,6 +3,7 @@ package com.gmkornilov.sberschool.freegames.presentation.features.gameinfo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,6 @@ import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavi
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -67,10 +67,27 @@ class GameInfoActivity : AppCompatActivity() {
             binding.scrollContent.descriptionText.text = it.description
         })
 
+        viewModel.loading.observe(this, {
+            binding.scrollContent.loadingLayout.visibility = mapVisibility(it)
+            if (it) {
+                binding.scrollContent.loadingLayout.startShimmer()
+            } else {
+                binding.scrollContent.loadingLayout.stopShimmer()
+            }
+        })
+
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
+
+    private fun mapVisibility(isVisible: Boolean): Int {
+        return if (isVisible) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
