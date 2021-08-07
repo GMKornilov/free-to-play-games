@@ -54,13 +54,14 @@ class GameInfoActivity : AppCompatActivity() {
             binding.scrollContent.networkView.root.visibility = mapVisibility(it)
         })
 
+        viewModel.notFoundError.observe(this, {
+            binding.scrollContent.notFoundView.root.visibility = mapVisibility(it)
+        })
+
         viewModel.exception.observe(this, {
             binding.scrollContent.unknownErrorView.root.visibility = mapVisibility(it)
         })
 
-        viewModel.notFoundError.observe(this, {
-            binding.scrollContent.notFoundView.root.visibility = mapVisibility(it)
-        })
 
 
         viewModel.gamePreview.observe(this, {

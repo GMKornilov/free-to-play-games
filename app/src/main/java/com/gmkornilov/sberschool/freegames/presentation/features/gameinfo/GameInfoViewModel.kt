@@ -141,6 +141,7 @@ class GameInfoViewModel @AssistedInject constructor(
                 Log.d(TAG, "Unknown exception:", failure.t)
                 _exception.value = true
             }
+            is Failure.GameNotFound -> _notFoundError.value = true
             is Failure.NetworkConnection -> _networkError.value = true
             is Failure.ServerError -> _serverError.value = true
         }
