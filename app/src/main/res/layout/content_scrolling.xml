@@ -46,9 +46,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/developer"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/developerText"
-            app:layout_constraintTop_toBottomOf="@id/descriptionText"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionText" />
 
         <TextView
             android:id="@+id/developerText"
@@ -58,9 +58,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:textAlignment="textStart"
+            app:layout_constraintBottom_toTopOf="@id/requirementTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/requirementTitle"
             app:layout_constraintTop_toBottomOf="@id/developerTitle"
             tools:text="@string/developer" />
 
@@ -73,7 +73,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/system_requirements"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/developerText"/>
+            app:layout_constraintTop_toBottomOf="@id/developerText" />
 
         <TextView
             android:id="@+id/osTitle"
@@ -84,7 +84,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/operating_system"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/requirementTitle"/>
+            app:layout_constraintTop_toBottomOf="@id/requirementTitle" />
 
         <TextView
             android:id="@+id/osText"
@@ -97,7 +97,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/osTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/osTitle"
-            tools:text="Windows 10"/>
+            tools:text="Windows 10" />
 
         <TextView
             android:id="@+id/processorTitle"
@@ -121,7 +121,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/processorTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/processorTitle"
-            tools:text="Intel Pentium 4 2.2 GHz"/>
+            tools:text="Intel Pentium 4 2.2 GHz" />
 
         <TextView
             android:id="@+id/memoryTitle"
@@ -132,7 +132,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/memory"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/processorTitle"/>
+            app:layout_constraintTop_toBottomOf="@id/processorTitle" />
 
         <TextView
             android:id="@+id/memoryText"
@@ -145,7 +145,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/memoryTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/memoryTitle"
-            tools:text="2 GB"/>
+            tools:text="2 GB" />
 
         <TextView
             android:id="@+id/graphicsTitle"
@@ -156,7 +156,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/graphics"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/memoryTitle"/>
+            app:layout_constraintTop_toBottomOf="@id/memoryTitle" />
 
         <TextView
             android:id="@+id/graphicsText"
@@ -169,7 +169,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/graphicsTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/graphicsTitle"
-            tools:text="Nvidia GeForce 6800 / ATI X1800 with 256 mb ram"/>
+            tools:text="Nvidia GeForce 6800 / ATI X1800 with 256 mb ram" />
 
         <TextView
             android:id="@+id/screenshotTitle"
@@ -180,22 +180,36 @@
             android:layout_marginTop="16dp"
             android:text="@string/screenshots"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/graphicsTitle"/>
+            app:layout_constraintTop_toBottomOf="@id/graphicsTitle" />
+
+        <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+            android:id="@+id/screenshotCarousel"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/screenshotTitle"
+            tools:listitem="@layout/screenshot_item_layout" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/mainContentGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            tools:visibility="visible"
-            app:constraint_referenced_ids="descriptionText,developerTitle,developerText,screenshotTitle" />
+            app:constraint_referenced_ids="descriptionText,developerTitle,developerText,screenshotTitle"
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/requirementGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            tools:visibility="visible"
-            app:constraint_referenced_ids="requirementTitle,osText,osTitle,processorText,processorTitle,memoryText,memoryTitle,graphicsText,graphicsTitle" />
+            app:constraint_referenced_ids="requirementTitle,osText,osTitle,processorText,processorTitle,memoryText,memoryTitle,graphicsText,graphicsTitle"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

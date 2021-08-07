@@ -3,6 +3,7 @@ package com.gmkornilov.sberschool.freegames.presentation.features.gameinfo
 import android.util.Log
 import androidx.lifecycle.*
 import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.GameInfo
+import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.Screenshot
 import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.SystemRequirement
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
 import com.gmkornilov.sberschool.freegames.domain.exception.Failure
@@ -44,6 +45,9 @@ class GameInfoViewModel @AssistedInject constructor(
 
     private val _requirements: MediatorLiveData<SystemRequirement> = MediatorLiveData()
     val requirements: LiveData<SystemRequirement> = _requirements
+
+    private val _screenshots: MediatorLiveData<List<Screenshot>> = MediatorLiveData()
+    val screenshots: LiveData<List<Screenshot>> = _screenshots
 
     val gamePreview: LiveData<GamePreview> = MutableLiveData<GamePreview>().apply {
         value = gamePreviewInfo
@@ -95,6 +99,10 @@ class GameInfoViewModel @AssistedInject constructor(
             ) {
                 _requirements.value = requirements
             }
+        }
+
+        _screenshots.addSource(_gameInfo) {
+            _screenshots.value = it.screenshots
         }
 
         getGameInfo()

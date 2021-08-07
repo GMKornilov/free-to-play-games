@@ -11,6 +11,7 @@ import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.ActivityGameInfoBinding
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
 import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
+import com.gmkornilov.sberschool.freegames.presentation.features.gameinfo.adapter.ScreenshotAdapter
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,11 +67,11 @@ class GameInfoActivity : AppCompatActivity() {
         })
 
         viewModel.requirements.observe(this, {
-                binding.scrollContent.osText.text = it.os
-                binding.scrollContent.processorText.text = it.processor
-                binding.scrollContent.memoryText.text = it.memory
-                binding.scrollContent.graphicsText.text = it.graphics
-                binding.scrollContent.requirementGroup.visibility = View.VISIBLE
+            binding.scrollContent.osText.text = it.os
+            binding.scrollContent.processorText.text = it.processor
+            binding.scrollContent.memoryText.text = it.memory
+            binding.scrollContent.graphicsText.text = it.graphics
+            binding.scrollContent.requirementGroup.visibility = View.VISIBLE
         })
 
         viewModel.developer.observe(this, {
@@ -79,6 +80,16 @@ class GameInfoActivity : AppCompatActivity() {
 
         viewModel.description.observe(this, {
             binding.scrollContent.descriptionText.text = it
+        })
+
+        val adapter = ScreenshotAdapter()
+        binding.scrollContent.screenshotCarousel.apply {
+            this.adapter = adapter
+            setIntervalRatio(0.4f)
+            setFlat(true)
+        }
+        viewModel.screenshots.observe(this, {
+            adapter.setData(it)
         })
 
         viewModel.loading.observe(this, {
