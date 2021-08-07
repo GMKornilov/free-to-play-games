@@ -63,42 +63,24 @@ class GameInfoActivity : AppCompatActivity() {
             binding.scrollContent.titleText.text = it.title
         })
 
-        viewModel.gameInfo.observe(this, {
-            binding.scrollContent.descriptionText.post {
-                binding.scrollContent.descriptionText.text = it.description
-            }
-
-            binding.scrollContent.developerText.text = it.developer
-
-            val requirement = it.minimumSystemRequirements
-            if (requirement != null) {
-                var any = false
-
-                if (requirement.os != null) {
-                    any = true
-                    binding.scrollContent.osText.text = requirement.os
-                }
-
-                if (requirement.processor != null) {
-                    any = true
-                    binding.scrollContent.processorText.text = requirement.processor
-                }
-
-                if (requirement.memory != null) {
-                    any = true
-                    binding.scrollContent.memoryText.text = requirement.memory
-                }
-
-                if (requirement.graphics != null) {
-                    any = true
-                    binding.scrollContent.graphicsText.text = requirement.graphics
-                }
-
-                if (any) {
-                    binding.scrollContent.requirementGroup.visibility = View.VISIBLE
-                }
-            }
+        viewModel.successfullyLoaded.observe(this, {
             binding.scrollContent.mainContentGroup.visibility = View.VISIBLE
+        })
+
+        viewModel.requirements.observe(this, {
+                binding.scrollContent.osText.text = it.os
+                binding.scrollContent.processorText.text = it.processor
+                binding.scrollContent.memoryText.text = it.memory
+                binding.scrollContent.graphicsText.text = it.graphics
+                binding.scrollContent.requirementGroup.visibility = View.VISIBLE
+        })
+
+        viewModel.developer.observe(this, {
+            binding.scrollContent.developerText.text = it
+        })
+
+        viewModel.description.observe(this, {
+            binding.scrollContent.descriptionText.text = it
         })
 
         viewModel.loading.observe(this, {

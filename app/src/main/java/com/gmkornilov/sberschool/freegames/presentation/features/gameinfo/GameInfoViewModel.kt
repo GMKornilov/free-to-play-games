@@ -3,6 +3,7 @@ package com.gmkornilov.sberschool.freegames.presentation.features.gameinfo
 import android.util.Log
 import androidx.lifecycle.*
 import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.GameInfo
+import com.gmkornilov.sberschool.freegames.domain.entity.gameinfo.SystemRequirement
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
 import com.gmkornilov.sberschool.freegames.domain.exception.Failure
 import com.gmkornilov.sberschool.freegames.domain.functional.Either
@@ -35,6 +36,15 @@ class GameInfoViewModel @AssistedInject constructor(
     private val _gameInfo: MutableLiveData<GameInfo> = MutableLiveData()
     val gameInfo: LiveData<GameInfo> = _gameInfo
 
+    private val _description: MediatorLiveData<String> = MediatorLiveData()
+    val description: LiveData<String> = _description
+
+    private val _developer: MediatorLiveData<String> = MediatorLiveData()
+    val developer: LiveData<String> = _developer
+
+    private val _requirements: MediatorLiveData<SystemRequirement> = MediatorLiveData()
+    val requirements: LiveData<SystemRequirement> = _requirements
+
     val gamePreview: LiveData<GamePreview> = MutableLiveData<GamePreview>().apply {
         value = gamePreviewInfo
     }
@@ -57,6 +67,26 @@ class GameInfoViewModel @AssistedInject constructor(
             val loadingValue = loading.value ?: false
             val isFailureValue = isFailure.value ?: false
             _successfullyLoaded.value = !(loadingValue || isFailureValue)
+        }
+
+        _description.addSource(_gameInfo) {
+            _description.value = it.description
+        }
+
+        _developer.addSource(_gameInfo) {
+            _developer.value = it.developer
+        }
+
+        _requirements.addSource(_gameInfo) {
+            val requirements = it.minimumSystemRequirements
+            if (requirements?.graphics != null
+                && requirements.memory != null
+                && requirements.processor != null
+                && requirements.os != null
+                && requirements.storage != null
+            ) {
+                    _requirements.value = requirements
+            }
         }
 
         getGameInfo()
