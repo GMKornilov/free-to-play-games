@@ -9,9 +9,8 @@ import com.gmkornilov.sberschool.freegames.domain.functional.Either
 import com.gmkornilov.sberschool.freegames.domain.interactor.SingleUseCase
 import com.gmkornilov.sberschool.freegames.domain.rx.SchedulersProvider
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import dagger.assisted.AssistedFactory
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.AssistedInject
 import io.reactivex.rxjava3.disposables.Disposable
 
 // This class is not annotated with @HiltViewModel annotation because

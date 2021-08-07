@@ -4,9 +4,9 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class SystemRequirement(
-    val os: String,
-    val processor: String,
-    val memory: String,
-    val graphics: String,
-    val storage: String,
+    val os: String? = null,
+    val processor: String? = null,
+    val memory: String? = null,
+    val graphics: String? = null,
+    val storage: String? = null,
 )

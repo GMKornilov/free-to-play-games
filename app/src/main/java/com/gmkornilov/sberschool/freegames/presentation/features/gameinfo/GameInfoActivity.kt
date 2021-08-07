@@ -64,13 +64,50 @@ class GameInfoActivity : AppCompatActivity() {
         })
 
         viewModel.gameInfo.observe(this, {
-            binding.scrollContent.descriptionText.text = it.description
+            binding.scrollContent.descriptionText.post {
+                binding.scrollContent.descriptionText.text = it.description
+            }
+
+            binding.scrollContent.developerText.text = it.developer
+
+            val requirement = it.minimumSystemRequirements
+            if (requirement != null) {
+                var any = false
+
+                if (requirement.os != null) {
+                    any = true
+                    binding.scrollContent.osText.text = requirement.os
+                }
+
+                if (requirement.processor != null) {
+                    any = true
+                    binding.scrollContent.processorText.text = requirement.processor
+                }
+
+                if (requirement.memory != null) {
+                    any = true
+                    binding.scrollContent.memoryText.text = requirement.memory
+                }
+
+                if (requirement.graphics != null) {
+                    any = true
+                    binding.scrollContent.graphicsText.text = requirement.graphics
+                }
+
+                if (any) {
+                    binding.scrollContent.requirementGroup.visibility = View.VISIBLE
+                }
+            }
+            binding.scrollContent.mainContentGroup.visibility = View.VISIBLE
         })
 
         viewModel.loading.observe(this, {
             binding.scrollContent.loadingLayout.visibility = mapVisibility(it)
             if (it) {
                 binding.scrollContent.loadingLayout.startShimmer()
+
+                binding.scrollContent.mainContentGroup.visibility = View.GONE
+                binding.scrollContent.requirementGroup.visibility = View.GONE
             } else {
                 binding.scrollContent.loadingLayout.stopShimmer()
             }
