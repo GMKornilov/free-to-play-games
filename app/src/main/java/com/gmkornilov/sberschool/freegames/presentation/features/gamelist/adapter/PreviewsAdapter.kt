@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
 import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
 import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
@@ -20,13 +22,33 @@ class PreviewsAdapter(
     ) : RecyclerView.ViewHolder(view) {
         private val titleText: TextView = view.findViewById(R.id.titleText)
         private val descriptionText: TextView = view.findViewById(R.id.descriptionText)
-        private val thumbnailImage: ImageView = view.findViewById(R.id.thumbnailImage)
+        private val thumbnailImage: ImageView =
+            view.findViewById<ImageView>(R.id.thumbnailImage).apply {
+                clipToOutline = true
+            }
+
+        private val shimmer = Shimmer.AlphaHighlightBuilder()
+            .setDuration(500)
+            .setBaseAlpha(0.7f)
+            .setHighlightAlpha(0.6f)
+            .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+            .build()
+
+        private val shimmerDrawable = ShimmerDrawable().apply {
+            setShimmer(shimmer)
+        }
 
         fun bind(preview: GamePreview) {
             titleText.text = preview.title
             descriptionText.text = preview.description
 
-            Picasso.get().load(preview.thumbnailUrl).into(thumbnailImage)
+            Picasso.get()
+                .load(preview.thumbnailUrl)
+                .placeholder(shimmerDrawable)
+                .noFade()
+                .fit()
+                .centerCrop()
+                .into(thumbnailImage)
 
             view.setOnClickListener {
                 val gameInfoNavigationInfo = GameInfoNavigationInfo(
