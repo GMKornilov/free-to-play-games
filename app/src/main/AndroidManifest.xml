@@ -13,11 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FreeGames">
         <activity
-            android:name=".presentation.features.gameinfo.GameInfoActivity"
-            android:parentActivityName=".presentation.features.gamelist.GameListActivity"
-            android:theme="@style/Theme.FreeGames.NoActionBar"/>
-        <activity
-            android:name=".presentation.features.gamelist.GameListActivity"
+            android:name=".presentation.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.FreeGames.NoActionBar">
             <intent-filter>

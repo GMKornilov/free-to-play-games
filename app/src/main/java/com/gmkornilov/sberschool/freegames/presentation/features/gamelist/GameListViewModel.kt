@@ -84,11 +84,9 @@ class GameListViewModel @Inject constructor(
     private fun showGameInfo(gameInfoNavigationInfo: GameInfoNavigationInfo) {
         showGameInfoDisposable?.dispose()
 
-        showGameInfoDisposable = showGameInfoUseCase.buildSingle(gameInfoNavigationInfo)
+        showGameInfoDisposable = showGameInfoUseCase.buildCompletable(gameInfoNavigationInfo)
             .subscribeOn(schedulersProvider.main())
-            .subscribe { intent ->
-                startActivityEvent.postValue(Pair(intent, gameInfoNavigationInfo))
-            }
+            .subscribe()
     }
 
     private fun processException(throwable: Throwable) {

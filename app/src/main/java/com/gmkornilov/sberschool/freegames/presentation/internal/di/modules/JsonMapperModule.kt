@@ -8,11 +8,11 @@ import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.components.ViewModelComponent
 
 @Module
-@InstallIn(ViewModelComponent::class, ActivityRetainedComponent::class)
+@InstallIn(ViewModelComponent::class, FragmentComponent::class)
 interface JsonMapperModule {
     @Binds
     fun provideGameInfoJsonDataMapper(gameInfoJsonDataMapper: GameInfoJsonDataMapper): JsonDataMapper<GameInfo>
