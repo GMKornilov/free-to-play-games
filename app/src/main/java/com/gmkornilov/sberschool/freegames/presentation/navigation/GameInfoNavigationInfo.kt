@@ -1,4 +1,4 @@
-package com.gmkornilov.sberschool.freegames.domain.entity.navigation
+package com.gmkornilov.sberschool.freegames.presentation.navigation
 
 import android.widget.ImageView
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview

@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.transition.ChangeBounds
 import com.github.terrakok.cicerone.Back
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Replace
@@ -50,12 +49,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         fragmentTransaction.addSharedElement(view, sharedTitle)
         nextFragment.setSharedName(sharedTitle)
 
-        val transitionAnimation = ChangeBounds()
-        currentFragment.sharedElementEnterTransition = transitionAnimation
-        currentFragment.sharedElementReturnTransition = transitionAnimation
-        nextFragment.sharedElementEnterTransition = transitionAnimation
-        nextFragment.sharedElementReturnTransition = transitionAnimation
-
+//        val transitionAnimation = ChangeBounds()
+//        currentFragment.sharedElementEnterTransition = transitionAnimation
+//        currentFragment.sharedElementReturnTransition = transitionAnimation
+//        nextFragment.sharedElementEnterTransition = transitionAnimation
+//        nextFragment.sharedElementReturnTransition = transitionAnimation
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
-import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
+import com.gmkornilov.sberschool.freegames.presentation.navigation.GameInfoNavigationInfo
 import com.gmkornilov.sberschool.freegames.domain.exception.NetworkConnectionException
 import com.gmkornilov.sberschool.freegames.domain.exception.ServerException
 import com.gmkornilov.sberschool.freegames.domain.interactor.CompletableUseCase

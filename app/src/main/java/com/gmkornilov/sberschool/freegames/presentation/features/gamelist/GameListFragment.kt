@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.FragmentGamePreviewsBinding
-import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
 import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.GamePreviewClicked
 import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.PreviewsAdapter
+import com.gmkornilov.sberschool.freegames.presentation.navigation.GameInfoNavigationInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -10,7 +10,7 @@ import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
-import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
+import com.gmkornilov.sberschool.freegames.presentation.navigation.GameInfoNavigationInfo
 import com.squareup.picasso.Picasso
 
 class PreviewsAdapter(
