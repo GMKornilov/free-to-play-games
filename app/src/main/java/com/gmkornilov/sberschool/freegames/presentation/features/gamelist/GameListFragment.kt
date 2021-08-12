@@ -4,18 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.FragmentGamePreviewsBinding
+import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
+import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.GamePreviewClicked
 import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.PreviewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GameListFragment : Fragment() {
+class GameListFragment : Fragment(), GamePreviewClicked {
     private lateinit var binding: FragmentGamePreviewsBinding
 
     private val viewModel: GameListViewModel by viewModels()
+
+    var sharedImageView: ImageView? = null
+    var sharedTitle: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +34,7 @@ class GameListFragment : Fragment() {
 
         binding.toolbar.title = getString(R.string.app_name)
 
-        val adapter = PreviewsAdapter(viewModel)
+        val adapter = PreviewsAdapter(this)
         binding.mainContent.gameList.adapter = adapter
 
         viewModel.gamePreviews.observe(viewLifecycleOwner, {
@@ -53,6 +59,12 @@ class GameListFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onGamePreviewClicked(gameInfoNavigationInfo: GameInfoNavigationInfo) {
+        sharedImageView = gameInfoNavigationInfo.sharedImageView
+        sharedTitle = gameInfoNavigationInfo.sharedThumbnailName
+        viewModel.gamePreviewClicked(gameInfoNavigationInfo.gamePreview)
     }
 
     private fun mapVisibility(isVisible: Boolean): Int {

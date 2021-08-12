@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class ApplicationNavigatorModule {
+interface ApplicationNavigatorModule {
     @Binds
-    abstract fun provideApplicationNavigator(navigatorImpl: ApplicationNavigatorImpl): ApplicationNavigator
+    fun provideApplicationNavigator(navigatorImpl: ApplicationNavigatorImpl): ApplicationNavigator
 }

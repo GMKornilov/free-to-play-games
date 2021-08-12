@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.FragmentGameInfoBinding
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
-import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
 import com.gmkornilov.sberschool.freegames.presentation.features.gameinfo.adapter.ScreenshotAdapter
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -33,6 +32,15 @@ class GameInfoFragment : Fragment() {
         )
     }
 
+    fun setSharedName(sharedThumbnailName: String) {
+        var args = arguments
+        if (args == null) {
+            args = Bundle()
+        }
+        args.putString(SHARED_THUMBNAIL_NAME, sharedThumbnailName)
+        arguments = args
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,7 +48,7 @@ class GameInfoFragment : Fragment() {
     ): View {
         binding = FragmentGameInfoBinding.inflate(inflater)
         binding.viewModel = viewModel
-        //supportPostponeEnterTransition()
+        postponeEnterTransition()
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
         binding.toolbar.setNavigationOnClickListener {
@@ -68,19 +76,17 @@ class GameInfoFragment : Fragment() {
             binding.scrollContent.unknownErrorView.root.visibility = mapVisibility(it)
         })
 
-
-
         viewModel.gamePreview.observe(viewLifecycleOwner, {
             Picasso.get()
                 .load(it.thumbnailUrl)
                 .noFade()
                 .into(binding.gameImage, object : Callback {
                     override fun onError(e: Exception?) {
-                        //supportStartPostponedEnterTransition()
+                        startPostponedEnterTransition()
                     }
 
                     override fun onSuccess() {
-                        //supportStartPostponedEnterTransition()
+                        startPostponedEnterTransition()
                     }
                 })
             binding.toolbarLayout.title = it.title
@@ -146,10 +152,9 @@ class GameInfoFragment : Fragment() {
         @VisibleForTesting
         const val SHARED_THUMBNAIL_NAME = "SHARED_THUMBNAIL_NAME"
 
-        fun newFragment(gameInfoNavigationInfo: GameInfoNavigationInfo): Fragment {
+        fun newFragment(gameInfoNavigationInfo: GamePreview): Fragment {
             val bundle = Bundle().apply {
-                putSerializable(GAME_PREVIEW, gameInfoNavigationInfo.gamePreview)
-                putString(SHARED_THUMBNAIL_NAME, gameInfoNavigationInfo.sharedThumbnailName)
+                putSerializable(GAME_PREVIEW, gameInfoNavigationInfo)
             }
             return GameInfoFragment().apply {
                 arguments = bundle

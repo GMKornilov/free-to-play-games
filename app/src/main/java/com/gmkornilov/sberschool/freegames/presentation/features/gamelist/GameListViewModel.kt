@@ -9,10 +9,9 @@ import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
 import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
 import com.gmkornilov.sberschool.freegames.domain.exception.NetworkConnectionException
 import com.gmkornilov.sberschool.freegames.domain.exception.ServerException
+import com.gmkornilov.sberschool.freegames.domain.interactor.CompletableUseCase
 import com.gmkornilov.sberschool.freegames.domain.interactor.SingleUseCase
-import com.gmkornilov.sberschool.freegames.domain.interactor.gamelist.ShowGameInfoUseCase
 import com.gmkornilov.sberschool.freegames.domain.rx.SchedulersProvider
-import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.GamePreviewClicked
 import com.gmkornilov.sberschool.freegames.presentation.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.Disposable
@@ -21,9 +20,9 @@ import javax.inject.Inject
 @HiltViewModel
 class GameListViewModel @Inject constructor(
     private val getAllGamePreviewsUseCase: SingleUseCase<List<GamePreview>, Unit>,
-    private val showGameInfoUseCase: ShowGameInfoUseCase,
+    private val showGameInfoUseCase: CompletableUseCase<GamePreview>,
     private val schedulersProvider: SchedulersProvider,
-) : ViewModel(), GamePreviewClicked {
+) : ViewModel() {
     private val _serverError: MutableLiveData<Boolean> = MutableLiveData(false)
     val serverError: LiveData<Boolean> = _serverError
 
@@ -76,12 +75,11 @@ class GameListViewModel @Inject constructor(
             }
     }
 
-    override fun onGamePreviewClicked(gameInfoNavigationInfo: GameInfoNavigationInfo) {
-        showGameInfo(gameInfoNavigationInfo)
+    fun gamePreviewClicked(gamePreview: GamePreview) {
+        showGameInfo(gamePreview)
     }
 
-
-    private fun showGameInfo(gameInfoNavigationInfo: GameInfoNavigationInfo) {
+    private fun showGameInfo(gameInfoNavigationInfo: GamePreview) {
         showGameInfoDisposable?.dispose()
 
         showGameInfoDisposable = showGameInfoUseCase.buildCompletable(gameInfoNavigationInfo)
