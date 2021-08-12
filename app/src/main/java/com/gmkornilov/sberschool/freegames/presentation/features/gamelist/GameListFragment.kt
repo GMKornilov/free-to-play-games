@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.FragmentGamePreviewsBinding
 import com.gmkornilov.sberschool.freegames.presentation.features.gamelist.adapter.PreviewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,8 @@ class GameListFragment : Fragment() {
         binding = FragmentGamePreviewsBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-//        setSupportActionBar(binding.toolbar)
+
+        binding.toolbar.title = getString(R.string.app_name)
 
         val adapter = PreviewsAdapter(viewModel)
         binding.mainContent.gameList.adapter = adapter

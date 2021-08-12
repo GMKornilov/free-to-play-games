@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.gmkornilov.sberschool.freegames.R
 import com.gmkornilov.sberschool.freegames.databinding.FragmentGameInfoBinding
 import com.gmkornilov.sberschool.freegames.domain.entity.gamepreview.GamePreview
 import com.gmkornilov.sberschool.freegames.domain.entity.navigation.GameInfoNavigationInfo
@@ -40,6 +41,11 @@ class GameInfoFragment : Fragment() {
         binding = FragmentGameInfoBinding.inflate(inflater)
         binding.viewModel = viewModel
         //supportPostponeEnterTransition()
+
+        binding.toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+        binding.toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
 
         val thumbnailTransitionName = requireArguments().getString(SHARED_THUMBNAIL_NAME)
         if (thumbnailTransitionName != null) {

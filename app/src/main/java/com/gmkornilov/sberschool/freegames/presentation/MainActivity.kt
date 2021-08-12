@@ -2,6 +2,7 @@ package com.gmkornilov.sberschool.freegames.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.github.terrakok.cicerone.Back
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Replace
 import com.github.terrakok.cicerone.androidx.AppNavigator
@@ -24,6 +25,10 @@ class MainActivity: AppCompatActivity(R.layout.activity_main) {
         if (savedInstanceState == null) {
             navigator.applyCommands(arrayOf(Replace(Screens.GamePreviewsList())))
         }
+    }
+
+    override fun onBackPressed() {
+        navigator.applyCommands(arrayOf(Back()))
     }
 
     override fun onResumeFragments() {
