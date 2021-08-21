@@ -14,6 +14,15 @@
 - Немного поигрался с Dagger2 и Hilt для Dependency injection. ~~Оказывается Hilt еще чутка сыроват и не умеет делать Assisted Injection для классов, помеченных @HiltViewModel.~~
 - Парочка библиотек для UI, по типу Picasso, библиотеки для Shimmer эффекта и CarouselRecyclerView, чтобы красиво скриншоты игры перелистывать 
 
+Скриншоты:
+
+<p align="center">
+  <img width="250" src="https://i.imgur.com/qWPvYyY.jpg"/>
+  <img width="250" src="https://i.imgur.com/uFmtkI6.jpg"/>
+  <img width="250" src="https://i.imgur.com/WN8QYmM.jpg"/>
+</p>
+  
+
 Что хотелось бы добавить/изменить:
 - поменять навигацию, чтобы юз-кейс перехода к активити был Completable, вместо Single с генерацией интентов.
 - добавить кэширование запросов
